@@ -1,0 +1,26 @@
+head
+    title quotes
+    link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
+body
+    .login
+        +loginButtons align='right'
+    .action-bar.details-line
+        .action-bar-left
+            .action-bttn.action-add +
+            .action-bttn.action-filter Show all
+            .action-bttn.action-filter-label Filter by
+        form.action-bar-right
+            input(type='search', placeholder='Search quotes...').action-search-field
+            input(type='submit', value='GO').action-bttn.action-search-bttn
+    .quotes
+        +quotes
+
+
+template(name='quotes')
+    each quotes
+        .quote
+            .quote-text=text
+            .details-line
+                .quote-icon(style='background-image: url(#{iconUrl})')
+                .quote-game=game
+                .quote-author - #{author}

@@ -1,0 +1,101 @@
+@import 'nib'
+
+// detail line width
+total-width = 600px
+icon-width = 32px
+game-width = (600px - 32px) / 2
+author-width = game-width
+
+body
+    background #eee
+    font-family 'Source Sans Pro'
+
+.quotes
+    margin 0 auto
+    width total-width
+
+.quote
+    margin-bottom 20px
+
+.action-bar
+    width total-width
+    margin 0 auto
+    margin-bottom 20px
+
+    .action-filter, .action-filter-label
+        padding 0 20px
+        width auto
+
+.action-bar .action-bar-left
+    float left
+    background #b0b0b0
+    width 295px
+
+.action-bar .action-bar-right
+    float right
+    background #b0b0b0
+    width 295px
+
+.action-bttn
+    height 32px
+    width 32px
+    text-align center
+    border 0
+    padding 0
+
+.action-search-field
+    height 32px
+    background transparent
+    border 0
+    padding 0
+    width (295 - 32)px
+
+.action-search-field::-webkit-input-placeholder
+    color #555
+
+.action-bttn.action-add
+    color green
+    font-size 20px
+
+.action-bttn:hover
+    background #999
+    cursor pointer
+    user-select none
+
+.quote-text
+    background-color #d0d0d0
+    background-image url(quote-start.png), url(quote-end.png)
+    background-position left top, right bottom
+    background-repeat no-repeat
+    padding 30px
+    font-size 1.5em
+
+.details-line
+    background-color #aaa
+    height 32px
+    line-height 32px
+
+.details-line *
+    font-size 15px
+    float left
+    box-sizing border-box
+
+.quote-icon
+    width 32px
+    height icon-width
+
+.quote-game
+    width game-width
+    padding-left 5px
+    height 32px
+
+.quote-author
+    width author-width
+    height 32px
+    text-align right
+    padding-right 5px
+
+.login
+    position absolute
+    right 10px
+    top 0
