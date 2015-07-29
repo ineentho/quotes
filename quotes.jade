@@ -7,14 +7,27 @@ body
     .action-bar.details-line
         .action-bar-left
             .action-bttn.action-add +
-            .action-bttn.action-filter Show all
-            .action-bttn.action-filter-label Filter by
         form.action-bar-right
             input(type='search', placeholder='Search quotes...').action-search-field
             input(type='submit', value='GO').action-bttn.action-search-bttn
+
+    if addQuoteOpen
+        +addQuote
+
     .quotes
         +quotes
 
+
+template(name='addQuote')
+        form.quote.add-quote
+            textarea.quote-text(placeholder='Your quote')
+            .details-line
+                .quote-icon(style='background-image: url(#{iconUrl})')
+                input.quote-game(placeholder='Where?')
+                input.quote-author(placeholder='Who?')
+            input.button(type='submit', value='Add quote')
+            input.button.cancel-button(type='button', value='Cancel')
+            .clear
 
 template(name='quotes')
     each quotes

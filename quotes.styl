@@ -16,15 +16,44 @@ body
 
 .quote
     margin-bottom 20px
+    width total-width
+
+.add-quote
+    width total-width
+    margin 0 auto
+    margin-bottom 40px
+
+
+    .quote-text
+        height 100px
+
+    .button
+        float right
+        height 25px
+        background #aaa
+        width 200px
+        border 0
+        margin-top 5px
+        font-family 'Source Sans Pro'
+        cursor pointer
+
+    .button:hover
+        background #999
+
+    .cancel-button
+        background #f66
+        float left
+
+    .cancel-button:hover
+        background #f44
+
+.clear
+    clear both
 
 .action-bar
     width total-width
     margin 0 auto
     margin-bottom 20px
-
-    .action-filter, .action-filter-label
-        padding 0 20px
-        width auto
 
 .action-bar .action-bar-left
     float left
@@ -50,7 +79,7 @@ body
     padding 0
     width (295 - 32)px
 
-.action-search-field::-webkit-input-placeholder
+*::-webkit-input-placeholder
     color #555
 
 .action-bttn.action-add
@@ -69,6 +98,9 @@ body
     background-repeat no-repeat
     padding 30px
     font-size 1.5em
+    border 0
+    font-family 'Source Sans Pro'
+    width total-width - 60px
 
 .details-line
     background-color #aaa
@@ -88,12 +120,16 @@ body
     width game-width
     padding-left 5px
     height 32px
+    background transparent
+    border 0
 
 .quote-author
     width author-width
     height 32px
     text-align right
     padding-right 5px
+    background 0
+    border 0
 
 .login
     position absolute

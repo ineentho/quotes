@@ -5,15 +5,28 @@ Quotes = new Mongo.Collection('quotes', {
     }
 });
 
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+function toggleQuoteBox() {
+    Session.set('addQuoteOpen', !Session.get('addQuoteOpen'));
+}
 
-  Template.quotes.helpers({
-    quotes: function () {
-        return Quotes.find({});
-    }
-  });
+if (Meteor.isClient) {
+
+    Template.quotes.helpers({
+        quotes: function () {
+            return Quotes.find({});
+        }
+    });
+
+    Template.body.helpers({
+        addQuoteOpen: function () {
+            return Session.get('addQuoteOpen');
+        }
+    });
+
+    Template.body.events({
+        'click .action-add': toggleQuoteBox,
+        'click .cancel-button': toggleQuoteBox
+    });
 
 }
 
