@@ -11,6 +11,7 @@ function toggleQuoteBox() {
 
 if (Meteor.isClient) {
 
+
     Template.quotes.helpers({
         quotes: function () {
             return Quotes.find({});
@@ -27,6 +28,19 @@ if (Meteor.isClient) {
         'click .action-add': toggleQuoteBox,
         'click .cancel-button': toggleQuoteBox
     });
+
+    Template.body.rendered = function() {
+        document.querySelector('.quotes')._uihooks = {
+            removeElement: function (node) {
+                node.classList.remove('bounceIn');
+                node.classList.add('bounceOut');;
+
+                setTimeout(function() {
+                   node.parentNode.removeChild(node);
+                }, 750);
+            }
+        };
+    };
 
 }
 

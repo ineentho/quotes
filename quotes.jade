@@ -11,15 +11,14 @@ body
             input(type='search', placeholder='Search quotes...').action-search-field
             input(type='submit', value='GO').action-bttn.action-search-bttn
 
-    if addQuoteOpen
-        +addQuote
-
     .quotes
+        if addQuoteOpen
+            +addQuote
         +quotes
 
 
 template(name='addQuote')
-        form.quote.add-quote
+        form.quote.add-quote.animated.bounceIn
             textarea.quote-text(placeholder='Your quote')
             .details-line
                 .quote-icon(style='background-image: url(#{iconUrl})')
