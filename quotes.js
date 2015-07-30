@@ -14,7 +14,7 @@ if (Meteor.isClient) {
 
     Template.quotes.helpers({
         quotes: function () {
-            return Quotes.find({});
+            return Quotes.find({}, {sort: {dateSubmitted: -1}});
         }
     });
 
@@ -24,9 +24,30 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.addQuote.events({
+        'submit .add-quote': function (e) {
+            e.preventDefault();
+            console.log(this); 
+
+
+            var quote = e.target.quote.value;
+            var where = e.target.where.value;
+            var who = e.target.who.value;
+
+            Quotes.insert({
+                text: quote,
+                game: where,
+                author: who,
+                submitter: Meteor.userId(),
+                dateSubmitted: new Date()
+            });
+            toggleQuoteBox();
+        }
+    });
+
     Template.body.events({
         'click .action-add': toggleQuoteBox,
-        'click .cancel-button': toggleQuoteBox
+        'click .cancel-button': toggleQuoteBox,
     });
 
     Template.body.rendered = function() {
