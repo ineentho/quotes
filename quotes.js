@@ -24,6 +24,12 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.addQuote.helpers({
+        loggedIn: function () {
+            return Meteor.user();
+        }
+    });
+
     Template.addQuote.events({
         'submit .add-quote': function (e) {
             e.preventDefault();

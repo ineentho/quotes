@@ -19,6 +19,8 @@ body
 
 template(name='addQuote')
         form.quote.add-quote.animated.bounceIn
+            unless loggedIn
+                .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit as a guest
             textarea.quote-text(placeholder='Your quote', name='quote')
             .details-line
                 .quote-icon(style='background-image: url(#{iconUrl})')
