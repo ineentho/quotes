@@ -52,54 +52,59 @@ body
     .submit:hover
         background: radial-gradient(farthest-side,#29cc29 50%,#2bd92b);
     
-.clear
-    clear both
+/*
+ * The top action bar and containing buttons
+ */
 
 .action-bar
     width total-width
     margin 0 auto
     margin-bottom 20px
-
-.action-bar .action-bar-left
-    float left
     background #b0b0b0
-    width 295px
 
-.action-bar .action-bar-right
-    float right
-    background #b0b0b0
-    width 295px
+    // Generic style for all action bar buttons
+    .action-bttn
+        font-family 'Play'
+        height 32px
+        width 32px
+        text-align center
+        border 0
+        padding 0
 
-.action-bttn
-    font-family 'Play'
-    height 32px
-    width 32px
-    text-align center
-    border 0
-    padding 0
+    .action-bttn:hover
+        background #999
+        cursor pointer
+        user-select none
 
-.action-search-field
-    font-family 'Play'
-    height 32px
-    background transparent
-    border 0
-    padding 0
-    width (295 - 32)px
+
+    // One custom style for each action bar element
+    .action-add
+        color green
+        font-size 20px
+
+    .action-logo
+        width 32px
+        height 32px
+        background url(quotes-logo.png)
+
+    .action-search-field
+        font-family 'Play'
+        height 32px
+        background transparent
+        border 0
+        padding 0
+
+        // The search bar takes up the full width except 3 buttons
+        width (total-width - 32 * 3)px
+
+.clear
+    clear both
 
 *::-webkit-input-placeholder
     color #555
 
 .quote-text::-webkit-input-placeholder
     color #BABABA
-
-.action-bttn.action-add
-    color green
-    font-size 20px
-
-.action-bttn:hover
-    background #999
-    cursor pointer
-    user-select none
 
 .quote-text
     background-color #d0d0d0

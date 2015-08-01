@@ -5,12 +5,11 @@ head
 body
     .login.animated.fadeInDown
         +loginButtons align='right'
-    .action-bar.details-line.animated.fadeInDown
-        .action-bar-left
-            .action-bttn.action-add +
-        form.action-bar-right
-            input(type='search', placeholder='Search quotes...').action-search-field
-            input(type='submit', value='GO').action-bttn.action-search-bttn
+    form.action-bar.details-line
+        .action-bttn.action-add +
+        .action-logo
+        input(type='search', placeholder='Search quotes...').action-search-field
+        input(type='submit', value='GO').action-bttn.action-search-bttn
 
     .quotes
         if addQuoteOpen
