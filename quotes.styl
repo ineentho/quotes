@@ -41,16 +41,17 @@ body
 
     .cancel-button
         background #e52e2e
-        float left
+        float: left
 
     .cancel-button:hover
-        background #d92b2b
+        background: radial-gradient(farthest-side, #cc2929 50%, #e52e2e);
+        //background #d92b2b
 
     .submit
         background-color #2bd92b
         
     .submit:hover
-        background-color #29cc29
+        background: radial-gradient(farthest-side,#29cc29 50%,#2bd92b);
     
 .clear
     clear both
@@ -118,7 +119,13 @@ body
     background-color #aaa
     height 32px
     line-height 32px
-
+    
+.quotes-details
+    background: linear-gradient(to right, #aaa, #c4c4c4);
+    //background-color #c90000
+    height 32px
+    line-heigth 32px
+    
 .not-logged-in
     font-family 'Play'
     background #f08418
@@ -130,7 +137,13 @@ body
     font-size 15px
     float left
     box-sizing border-box
-
+    
+.quotes-details *
+    font-family 'Play'
+    font-size 15px
+    float left
+    box-sizing border-box
+    
 .quote-icon
     width 32px
     height icon-width

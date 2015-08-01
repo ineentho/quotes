@@ -23,7 +23,7 @@ template(name='addQuote')
             unless loggedIn
                 .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit.
             textarea.quote-text(placeholder='Your quote', name='quote')
-            .details-line
+            .quotes-details
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 input.quote-game(placeholder='Where?', name='where')
                 input.quote-author(placeholder='Who?', name='who')
@@ -35,7 +35,7 @@ template(name='quotes')
     each quotes
         .quote.animated.fadeInDown
             .quote-text=text
-            .details-line
+            .quotes-details
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 .quote-game=game
                 .quote-author - #{author}
