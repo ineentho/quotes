@@ -56,6 +56,8 @@ if (Meteor.isClient) {
                    // TODO: Show that the quote was properly submitted
                }
             });
+
+            toggleQuoteBox();
         }
     });
 
