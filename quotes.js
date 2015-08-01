@@ -10,6 +10,8 @@ function toggleQuoteBox() {
 }
 
 if (Meteor.isClient) {
+    
+    Meteor.subscribe('quotes');
 
 
     Template.quotes.helpers({
@@ -33,21 +35,27 @@ if (Meteor.isClient) {
     Template.addQuote.events({
         'submit .add-quote': function (e) {
             e.preventDefault();
-            console.log(this); 
-
 
             var quote = e.target.quote.value;
             var where = e.target.where.value;
             var who = e.target.who.value;
 
-            Quotes.insert({
-                text: quote,
-                game: where,
-                author: who,
-                submitter: Meteor.userId(),
-                dateSubmitted: new Date()
+            if (quote.length <= 0 || quote.length >= 1024)
+                return alert('Your quote has to be between 1 and 1024 characters');
+
+            if (where.length <= 0 || quote.length >= 128)
+                return alert('Your where field has to be between 1 and 128 characters');
+
+            if (who.length <= 0 || who.length >= 128)
+                return alert('Your who field has to be between 1 and 128 characters');
+
+            Meteor.call('addQuote', quote, where, who, function(err) {
+               if (err) {
+                    alert('Could not submit the quote :(');
+               } else {
+                   // TODO: Show that the quote was properly submitted
+               }
             });
-            toggleQuoteBox();
         }
     });
 
@@ -72,7 +80,31 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
+    Meteor.publish('quotes', function() {
+        return Quotes.find();
+    });
 }
+
+
+var StringBetween = function (min, max) {
+    return Match.Where(function (x) {
+        check(x, String);
+        return x.length >= min && x.length <= max;
+    });
+}
+
+
+Meteor.methods({
+    addQuote: function(text, game, author) {
+        check(text, StringBetween(1, 1024));
+        check(game, StringBetween(1, 128));
+
+        Quotes.insert({
+            text: text,
+            game: game,
+            author: author,
+            submitter: Meteor.userId(),
+            dateSubmitted: new Date()
+        });
+    }
+});
