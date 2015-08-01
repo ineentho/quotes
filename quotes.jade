@@ -1,6 +1,7 @@
 head
     title quotes
     link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Play', rel='stylesheet', type='text/css')
 body
     .login.animated.fadeInDown
         +loginButtons align='right'
@@ -20,13 +21,13 @@ body
 template(name='addQuote')
         form.quote.add-quote.animated.bounceIn
             unless loggedIn
-                .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit as a guest
+                .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit.
             textarea.quote-text(placeholder='Your quote', name='quote')
             .details-line
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 input.quote-game(placeholder='Where?', name='where')
                 input.quote-author(placeholder='Who?', name='who')
-            input.button(type='submit', value='Add quote')
+            input.button.submit(type='submit', value='Add quote')
             input.button.cancel-button(type='button', value='Cancel')
             .clear
 

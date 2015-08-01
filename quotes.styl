@@ -21,32 +21,37 @@ body
 .add-quote
     width total-width
     margin 0 auto
-    margin-bottom 40px
+    margin-bottom 20px
 
 
     .quote-text
         height 100px
+        display block
 
     .button
         float right
-        height 25px
-        background #aaa
+        padding 0
+        height 32px
         width 200px
         border 0
         margin-top 5px
-        font-family 'Source Sans Pro'
+        font-size 16px
+        font-family 'Play'
         cursor pointer
 
-    .button:hover
-        background #999
-
     .cancel-button
-        background #f66
+        background #e52e2e
         float left
 
     .cancel-button:hover
-        background #f44
+        background #d92b2b
 
+    .submit
+        background-color #2bd92b
+        
+    .submit:hover
+        background-color #29cc29
+    
 .clear
     clear both
 
@@ -66,6 +71,7 @@ body
     width 295px
 
 .action-bttn
+    font-family 'Play'
     height 32px
     width 32px
     text-align center
@@ -73,6 +79,7 @@ body
     padding 0
 
 .action-search-field
+    font-family 'Play'
     height 32px
     background transparent
     border 0
@@ -81,6 +88,9 @@ body
 
 *::-webkit-input-placeholder
     color #555
+
+.quote-text::-webkit-input-placeholder
+    color #BABABA
 
 .action-bttn.action-add
     color green
@@ -110,8 +120,9 @@ body
     line-height 32px
 
 .not-logged-in
-    background #ffb029
-    margin-bottom 10px
+    font-family 'Play'
+    background #f08418
+    margin-bottom 5px
     text-align center
 
 .details-line *
