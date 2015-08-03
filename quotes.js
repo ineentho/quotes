@@ -141,6 +141,7 @@ Meteor.methods({
     addQuote: function(text, game, author) {
         check(text, StringBetween(1, 1024));
         check(game, StringBetween(1, 128));
+        check(author, StringBetween(1, 128));
 
         Quotes.insert({
             text: text,
@@ -158,7 +159,5 @@ Meteor.methods({
         if (canModerateQuote(quote)) {
             Quotes.remove({_id: id});
         }
-
-
     }
 });
