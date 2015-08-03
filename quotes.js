@@ -9,7 +9,25 @@ function toggleQuoteBox() {
     Session.set('addQuoteOpen', !Session.get('addQuoteOpen'));
 }
 
+function canModerateQuotes() {
+    return Roles.userIsInRole(Meteor.user(), ['admin', 'quote-moderator']);
+}
+
+function canModerateQuote(quote) {
+    if (canModerateQuotes()) {
+        // Users has moderation powers
+        return true;
+    }
+
+    if (!quote.submitter)
+        // The quote was added by an anonymous users
+        return false;
+
+    return quote.submitter === Meteor.userId();
+}
+
 if (Meteor.isClient) {
+    
     
     Meteor.subscribe('quotes');
 
@@ -17,12 +35,34 @@ if (Meteor.isClient) {
     Template.quotes.helpers({
         quotes: function () {
             return Quotes.find({}, {sort: {dateSubmitted: -1}});
+        },
+
+        canModerate: function () {
+            return canModerateQuote(this);
+        }
+    });
+
+    Template.quotes.events({
+        'click .quote-mod-del': function(e) {
+            e.preventDefault();
+            var id = e.target.parentNode.getAttribute('quote-id');
+
+            Meteor.call('removeQuote', id);
         }
     });
 
     Template.body.helpers({
         addQuoteOpen: function () {
             return Session.get('addQuoteOpen');
+        },
+        loggedIn: function () {
+            return Meteor.user();
+        }
+    });
+
+    Template.userLevel.helpers({
+        userLevel: function () {
+            return Roles.getRolesForUser(Meteor.user());
         }
     });
 
@@ -70,6 +110,7 @@ if (Meteor.isClient) {
         document.querySelector('.quotes')._uihooks = {
             removeElement: function (node) {
                 node.classList.remove('bounceIn');
+                node.classList.remove('fadeInDown');
                 node.classList.add('bounceOut');;
 
                 setTimeout(function() {
@@ -108,5 +149,16 @@ Meteor.methods({
             submitter: Meteor.userId(),
             dateSubmitted: new Date()
         });
+    },
+
+    removeQuote: function(id) {
+        check(id, String);
+
+        var quote = Quotes.findOne({_id: id});
+        if (canModerateQuote(quote)) {
+            Quotes.remove({_id: id});
+        }
+
+
     }
 });

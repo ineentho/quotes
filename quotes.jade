@@ -5,6 +5,8 @@ head
 body
     .login.animated.fadeInDown
         +loginButtons align='right'
+        if loggedIn
+            +userLevel
     form.action-bar.details-line
         .action-bttn.action-add +
         .action-logo
@@ -33,8 +35,15 @@ template(name='addQuote')
 template(name='quotes')
     each quotes
         .quote.animated.fadeInDown
+            if canModerate
+                .quote-moderation(quote-id=_id)
+                    a.quote-mod-del(href='#') Remove
+                    a.quote-mod-edit(href='#') Edit
             .quote-text=text
             .quotes-details
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 .quote-game=game
                 .quote-author - #{author}
+
+template(name='userLevel')
+    .user-level=userLevel
