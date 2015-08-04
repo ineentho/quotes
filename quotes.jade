@@ -8,7 +8,10 @@ body
         if loggedIn
             +userLevel
     form.action-bar.details-line
-        .action-bttn.action-add +
+        unless addQuoteOpen
+            .action-bttn.action-add +
+        else
+            .action-bttn.action-add.action-remove -
         .action-logo
         input(type='search', placeholder='Search quotes...').action-search-field
         input(type='submit', value='GO').action-bttn.action-search-bttn
