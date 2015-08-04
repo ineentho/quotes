@@ -36,7 +36,6 @@ body
 
 
     .quote-text
-        height 100px
         display block
 
     .button
@@ -63,6 +62,20 @@ body
     .submit:hover
         background: radial-gradient(farthest-side,#29cc29 50%,#2bd92b);
     
+.add-quote[editing]
+    .button
+        animation expandHeight .5s ease
+        overflow hidden
+
+
+@keyframes expandHeight
+    from
+        max-height 0
+
+    to
+        max-height 32px
+    
+
 /*
  * The top action bar and containing buttons
  */

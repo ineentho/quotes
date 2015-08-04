@@ -20,10 +20,10 @@ body
 
 
 template(name='addQuote')
-        form.quote.add-quote.animated.bounceIn(editing=editing)
+        form.quote.add-quote.bounceIn(editing=editing, class=quoteAnimateClass, class=editing)
             unless loggedIn
                 .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit.
-            textarea.quote-text(placeholder='Your quote', name='quote')=text
+            .quote-text(placeholder='Your quote', name='quote', contentEditable)=text
             .quotes-details
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 input.quote-game(placeholder='Where?', name='where', value=game)
@@ -37,7 +37,7 @@ template(name='quotes')
         if editing
             +addQuote editing=true text=text game=game author=author _id=_id
         else
-            .quote.animated.fadeInDown(quote-id=_id)
+            .quote.fadeInDown(quote-id=_id, class=quoteAnimateClass)
                 if canModerate
                     .quote-moderation
                         a.quote-mod-del(href='#') Remove

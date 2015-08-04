@@ -28,10 +28,11 @@ function canModerateQuote(quote) {
 
 if (Meteor.isClient) {
     
-    function toggleLocalEditing(quoteId, state) {
+    function toggleLocalEditing(quoteId, state, edited) {
         Quotes._collection.update({_id: quoteId}, {
             $set: {
-                editing: state
+                editing: state,
+                edited: edited
             }
         });
     }
@@ -46,6 +47,10 @@ if (Meteor.isClient) {
 
         canModerate: function () {
             return canModerateQuote(this);
+        },
+
+        quoteAnimateClass: function () {
+            return Quotes.findOne({_id: this._id}).edited ? '' : 'animated';
         }
     });
 
@@ -59,7 +64,7 @@ if (Meteor.isClient) {
         'click .quote-mod-edit': function(e) {
             e.preventDefault();
             var id = e.target.parentNode.parentNode.getAttribute('quote-id');
-            toggleLocalEditing(id, true);
+            toggleLocalEditing(id, true, true);
         }
     });
 
@@ -84,6 +89,9 @@ if (Meteor.isClient) {
         },
         addText: function () {
             return this.editing ? 'Save' : 'Add quote';
+        },
+        quoteAnimateClass: function () {
+            return (typeof this._id !== 'undefined') ? '' : 'animated';
         }
     });
 
@@ -91,7 +99,7 @@ if (Meteor.isClient) {
         'submit .add-quote': function (e) {
             e.preventDefault();
 
-            var quote = e.target.quote.value;
+            var quote = e.target.querySelector('.quote-text').innerText;
             var where = e.target.where.value;
             var who = e.target.who.value;
 
@@ -110,7 +118,7 @@ if (Meteor.isClient) {
                     if (err) {
                         alert('Could not edit the quote');
                     }
-                    toggleLocalEditing(id, false);   
+                    toggleLocalEditing(id, false, true);   
                 });
             } else {
                 Meteor.call('addQuote', quote, where, who, function(err) {
@@ -123,7 +131,7 @@ if (Meteor.isClient) {
         },
         'click .cancel-button': function (e) {
             if (this.editing) {
-                toggleLocalEditing(this._id, false);
+                toggleLocalEditing(this._id, false, true);
             } else {
                 toggleQuoteBox();
             }
@@ -142,7 +150,7 @@ if (Meteor.isClient) {
                 var id = node.getAttribute('quote-id');
                 if (id) {
                     var quote = Quotes.findOne({_id: id});
-                    if (quote.editing) {
+                    if (quote && quote.editing) {
                         node.parentNode.removeChild(node);
                         return;
                     }
