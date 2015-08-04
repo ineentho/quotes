@@ -154,9 +154,25 @@ if (Meteor.isClient) {
     });
 
     Template.body.rendered = function() {
-        document.querySelector('.quotes')._uihooks = {
-            removeElement: function (node) {
+        var container = document.querySelector('.quotes');
+        container._uihooks = {
+            insertElement: function (node, next) {
+                var quoteId = node.getAttribute('quote-id');
+                var quote = Quotes.findOne({_id: quoteId});
+                if (quote && quote.edited) {
+                    // Delay quotes that where just edited
+                    setTimeout(function() {
+                        container.insertBefore(node, next);
 
+                        setTimeout(function() {
+                            toggleLocalEditing(quoteId, false, false);
+                        }, 1000);
+                    }, 500);
+                } else {
+                    container.insertBefore(node, next);
+                }
+            },
+            removeElement: function (node) {
                 // Check if the quote is getting edited
                 var id = node.getAttribute('quote-id');
                 if (id) {
@@ -169,7 +185,10 @@ if (Meteor.isClient) {
 
                 // Check if it was an editing form
                 if (node.getAttribute('editing')) {
-                    node.parentNode.removeChild(node);
+                    $(node).find('.button-animation').removeClass('button-animation').addClass('button-reverse');
+                    setTimeout(function() {
+                        node.parentNode.removeChild(node);
+                    }, 500);
                     return;
                 }
 
@@ -183,7 +202,6 @@ if (Meteor.isClient) {
             }
         };
     };
-
 }
 
 if (Meteor.isServer) {

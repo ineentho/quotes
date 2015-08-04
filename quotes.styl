@@ -63,8 +63,12 @@ body
         background: radial-gradient(farthest-side,#29cc29 50%,#2bd92b);
     
 .add-quote[editing]
-    .button
+    .button-animation
         animation expandHeight .5s ease
+        overflow hidden
+
+    .button-reverse
+        animation retractHeight .5s ease
         overflow hidden
 
 
@@ -74,6 +78,12 @@ body
 
     to
         max-height 32px
+
+@keyframes retractHeight
+    from
+        max-height 32px
+    to
+        max-height 0
     
 
 /*

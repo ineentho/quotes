@@ -28,8 +28,8 @@ template(name='addQuote')
                 .quote-icon(style='background-image: url(#{iconUrl})')
                 input.quote-game(placeholder='Where?', name='where', value=game)
                 input.quote-author(placeholder='Who?', name='who', value=author)
-            input.button.submit(type='submit', value=addText)
-            input.button.cancel-button(type='button', value='Cancel')
+            input.button.button-animation.submit(type='submit', value=addText)
+            input.button.button-animation.cancel-button(type='button', value='Cancel')
             .clear
 
 template(name='quotes')
