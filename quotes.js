@@ -249,7 +249,7 @@ Meteor.methods({
         check(game, StringBetween(1, 128));
         check(author, StringBetween(1, 128));
 
-        var quote = Quotes.find({_id: id});
+        var quote = Quotes.findOne({_id: id});
 
         if (canModerateQuote(quote)) {
             Quotes.update({_id: id}, {
