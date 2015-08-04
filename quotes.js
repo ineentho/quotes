@@ -5,6 +5,17 @@ Quotes = new Mongo.Collection('quotes', {
     }
 });
 
+admin = function () {
+    if (Meteor.user()) {
+        console.log('Run this command on the server to become admin:');
+        console.log('\tmeteor shell');
+        console.log('\tRoles.setUserRoles(\'' + Meteor.userId() +  '\', [\'admin\'])');
+        return '';
+    } else {
+        return 'You are not logged in';
+    }
+}
+
 function toggleQuoteBox() {
     Session.set('addQuoteOpen', !Session.get('addQuoteOpen'));
 }
