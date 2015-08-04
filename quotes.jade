@@ -20,30 +20,33 @@ body
 
 
 template(name='addQuote')
-        form.quote.add-quote.animated.bounceIn
+        form.quote.add-quote.animated.bounceIn(editing=editing)
             unless loggedIn
                 .not-logged-in.details-line You are not logged in. You will not be able to edit any quotes you submit.
-            textarea.quote-text(placeholder='Your quote', name='quote')
+            textarea.quote-text(placeholder='Your quote', name='quote')=text
             .quotes-details
                 .quote-icon(style='background-image: url(#{iconUrl})')
-                input.quote-game(placeholder='Where?', name='where')
-                input.quote-author(placeholder='Who?', name='who')
-            input.button.submit(type='submit', value='Add quote')
+                input.quote-game(placeholder='Where?', name='where', value=game)
+                input.quote-author(placeholder='Who?', name='who', value=author)
+            input.button.submit(type='submit', value=addText)
             input.button.cancel-button(type='button', value='Cancel')
             .clear
 
 template(name='quotes')
     each quotes
-        .quote.animated.fadeInDown
-            if canModerate
-                .quote-moderation(quote-id=_id)
-                    a.quote-mod-del(href='#') Remove
-                    a.quote-mod-edit(href='#') Edit
-            .quote-text=text
-            .quotes-details
-                .quote-icon(style='background-image: url(#{iconUrl})')
-                .quote-game=game
-                .quote-author - #{author}
+        if editing
+            +addQuote editing=true text=text game=game author=author _id=_id
+        else
+            .quote.animated.fadeInDown(quote-id=_id)
+                if canModerate
+                    .quote-moderation
+                        a.quote-mod-del(href='#') Remove
+                        a.quote-mod-edit(href='#') Edit
+                .quote-text=text
+                .quotes-details
+                    .quote-icon(style='background-image: url(#{iconUrl})')
+                    .quote-game=game
+                    .quote-author - #{author}
 
 template(name='userLevel')
     .user-level=userLevel

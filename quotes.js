@@ -28,6 +28,13 @@ function canModerateQuote(quote) {
 
 if (Meteor.isClient) {
     
+    function toggleLocalEditing(quoteId, state) {
+        Quotes._collection.update({_id: quoteId}, {
+            $set: {
+                editing: state
+            }
+        });
+    }
     
     Meteor.subscribe('quotes');
 
@@ -45,9 +52,14 @@ if (Meteor.isClient) {
     Template.quotes.events({
         'click .quote-mod-del': function(e) {
             e.preventDefault();
-            var id = e.target.parentNode.getAttribute('quote-id');
+            var id = e.target.parentNode.parentNode.getAttribute('quote-id');
 
             Meteor.call('removeQuote', id);
+        },
+        'click .quote-mod-edit': function(e) {
+            e.preventDefault();
+            var id = e.target.parentNode.parentNode.getAttribute('quote-id');
+            toggleLocalEditing(id, true);
         }
     });
 
@@ -69,6 +81,9 @@ if (Meteor.isClient) {
     Template.addQuote.helpers({
         loggedIn: function () {
             return Meteor.user();
+        },
+        addText: function () {
+            return this.editing ? 'Save' : 'Add quote';
         }
     });
 
@@ -89,26 +104,56 @@ if (Meteor.isClient) {
             if (who.length <= 0 || who.length >= 128)
                 return alert('Your who field has to be between 1 and 128 characters');
 
-            Meteor.call('addQuote', quote, where, who, function(err) {
-               if (err) {
-                    alert('Could not submit the quote :(');
-               } else {
-                   // TODO: Show that the quote was properly submitted
-               }
-            });
-
-            toggleQuoteBox();
+            if (this.editing) {
+                var id = this._id;
+                Meteor.call('editQuote', this._id, quote, where, who, function(err) {
+                    if (err) {
+                        alert('Could not edit the quote');
+                    }
+                    toggleLocalEditing(id, false);   
+                });
+            } else {
+                Meteor.call('addQuote', quote, where, who, function(err) {
+                   if (err) {
+                        alert('Could not submit the quote :(');
+                   }
+                });
+                toggleQuoteBox();
+            }
+        },
+        'click .cancel-button': function (e) {
+            if (this.editing) {
+                toggleLocalEditing(this._id, false);
+            } else {
+                toggleQuoteBox();
+            }
         }
     });
 
     Template.body.events({
-        'click .action-add': toggleQuoteBox,
-        'click .cancel-button': toggleQuoteBox,
+        'click .action-add': toggleQuoteBox
     });
 
     Template.body.rendered = function() {
         document.querySelector('.quotes')._uihooks = {
             removeElement: function (node) {
+
+                // Check if the quote is getting edited
+                var id = node.getAttribute('quote-id');
+                if (id) {
+                    var quote = Quotes.findOne({_id: id});
+                    if (quote.editing) {
+                        node.parentNode.removeChild(node);
+                        return;
+                    }
+                }
+
+                // Check if it was an editing form
+                if (node.getAttribute('editing')) {
+                    node.parentNode.removeChild(node);
+                    return;
+                }
+
                 node.classList.remove('bounceIn');
                 node.classList.remove('fadeInDown');
                 node.classList.add('bounceOut');;
@@ -147,7 +192,7 @@ Meteor.methods({
             text: text,
             game: game,
             author: author,
-            submitter: Meteor.userId(),
+                    submitter: Meteor.userId(),
             dateSubmitted: new Date()
         });
     },
@@ -158,6 +203,25 @@ Meteor.methods({
         var quote = Quotes.findOne({_id: id});
         if (canModerateQuote(quote)) {
             Quotes.remove({_id: id});
+        }
+    },
+
+    editQuote: function(id, text, game, author) {
+        check(id, String);
+        check(text, StringBetween(1, 1024));
+        check(game, StringBetween(1, 128));
+        check(author, StringBetween(1, 128));
+
+        var quote = Quotes.find({_id: id});
+
+        if (canModerateQuote(quote)) {
+            Quotes.update({_id: id}, {
+                $set: {
+                    text: text,
+                    game: game,
+                    author: author
+                }
+            });
         }
     }
 });
