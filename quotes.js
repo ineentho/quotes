@@ -48,7 +48,7 @@ if (Meteor.isClient) {
         });
     }
     
-    Meteor.subscribe('quotes');
+    Meteor.subscribe('quotes', Session.get('searchQuery'));
 
 
     Template.quotes.helpers({
@@ -150,7 +150,11 @@ if (Meteor.isClient) {
     });
 
     Template.body.events({
-        'click .action-add': toggleQuoteBox
+        'click .action-add': toggleQuoteBox,
+        'submit .action-bar': function (e) {
+            e.preventDefault();
+            Session.set('searchQuery', e.target.querySelector('.action-search-field').value);
+        }
     });
 
     Template.body.rendered = function() {
@@ -205,9 +209,58 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-    Meteor.publish('quotes', function() {
-        return Quotes.find();
+    Meteor.publish('quotes', function(query) {
+        var doc = {};
+        console.log('query', query);
+        var ids = searchQuotes(query);
+        if (ids) {
+            doc._id = {
+                $in: ids
+            };
+        }
+        return Quotes.find(doc);
     });
+
+    Meteor.startup(function() {
+        Quotes._ensureIndex({
+            text: 'text',
+            game: 'text',
+            author: 'text'
+        }, {
+        });
+    });
+
+    _searchQuotes = function (query) {
+        var Future = Npm.require('fibers/future');
+        var future = new Future();
+        MongoInternals.defaultRemoteCollectionDriver().mongo.db.executeDbCommand({
+            text: 'quotes',
+            search: query,
+            project: {
+                id: 1 // Only take the ids
+            }
+        }, function(error, results) {
+            console.log(error, results);
+            if (results && results.documents[0].ok === 1) {
+                future.return(results.documents[0].results);
+            }
+            else {
+                future.return('');
+            }
+        });
+        return future.wait();
+    }
+
+    searchQuotes = function (query) {
+        if (query && query !== '') {
+            var results = _searchQuotes(query);
+            var ids = [];
+            for (var i = 0; i < results.length; i++) {
+                ids.push(results[i].obj._id);
+            }
+            return ids;
+        }
+    }
 }
 
 
@@ -229,7 +282,7 @@ Meteor.methods({
             text: text,
             game: game,
             author: author,
-                    submitter: Meteor.userId(),
+            submitter: Meteor.userId(),
             dateSubmitted: new Date()
         });
     },
