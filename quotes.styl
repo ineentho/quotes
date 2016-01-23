@@ -96,6 +96,7 @@ body
     margin 0 auto
     margin-bottom 20px
     background #b0b0b0
+    position relative
 
     // Generic style for all action bar buttons
     .action-bttn
@@ -106,6 +107,7 @@ body
         border 0
         padding 0
         background #aaaaaa
+        outline 0
         
     .action-bttn:hover
         background #999
@@ -206,16 +208,40 @@ body
     background 0
     border 0
 
-.login
+.signin-container
     position absolute
-    right 10px
-    border 1px #666666 solid
-    border-radius 6px 0
-    padding 0 4px
+    right -20px
+    height 0
+    width 0
+    background red
     
-.login a
-    text-decoration none !important
+.signin-dialog
+    height 32px
+    width 32px
+    background #aaaaaa
+    transition width 1s, height 1s
+    overflow hidden
     
-.login-dropdown-list
-    right 10px
-    top 10px
+.signin-bttn
+    float left
+
+.signin-out
+    width 200px
+    height 266+20+32px
+    
+.titleshit
+    height 32px
+    width auto
+    color white
+    float left
+
+.textshit
+    padding 6px
+    width 200px
+    opacity 0
+    background #d0d0d0
+    
+.signin-out .textshit
+    opacity 1
+    transition opacity 0.5s
+    transition-delay 0.75s

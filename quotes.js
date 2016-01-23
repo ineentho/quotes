@@ -38,7 +38,13 @@ function canModerateQuote(quote) {
 }
 
 if (Meteor.isClient) {
-    
+    $(document).ready(function() {
+        $('.signin-bttn').on('click', function(e) {
+            $('.signin-dialog').toggleClass('signin-out');
+            e.preventDefault();
+        });
+    }); 
+
     function toggleLocalEditing(quoteId, state, edited) {
         Quotes._collection.update({_id: quoteId}, {
             $set: {

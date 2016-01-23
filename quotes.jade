@@ -3,10 +3,6 @@ head
     link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Play', rel='stylesheet', type='text/css')
 body
-    .login.animated.fadeInDown
-        +loginButtons align='right'
-        if loggedIn
-            +userLevel
     form.action-bar.details-line
         unless addQuoteOpen
             .action-bttn.action-add +
@@ -15,7 +11,13 @@ body
         .action-logo
         input(type='search', placeholder='Search quotes...').action-search-field
         input(type='submit', value='GO').action-bttn.action-search-bttn
-
+        .signin-container
+            .signin-dialog
+                button.action-bttn.signin-bttn
+                    img(src='login.png')
+                .titleshit Here without.
+                .textshit Hej, jag gillar korvsnaskare! HARAGGHHALALRARALH
+            
     .quotes
         if addQuoteOpen
             +addQuote
