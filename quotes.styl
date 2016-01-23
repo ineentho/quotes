@@ -9,6 +9,7 @@ author-width = game-width
 body
     background #F0F0F0
     font-family 'Source Sans Pro'
+    margin 10px
 
 .quotes
     margin 0 auto
@@ -104,13 +105,14 @@ body
         text-align center
         border 0
         padding 0
-
+        background #aaaaaa
+        
     .action-bttn:hover
         background #999
         cursor pointer
         user-select none
-
-
+        
+        
     // One custom style for each action bar element
     .action-add
         color green
@@ -128,7 +130,7 @@ body
     .action-search-field
         font-family 'Play'
         height 32px
-        background transparent
+        background #d0d0d0
         border 0
         padding-left 6px
 
@@ -207,4 +209,13 @@ body
 .login
     position absolute
     right 10px
-    top 0
+    border 1px #666666 solid
+    border-radius 6px 0
+    padding 0 4px
+    
+.login a
+    text-decoration none !important
+    
+.login-dropdown-list
+    right 10px
+    top 10px
